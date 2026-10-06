@@ -14,7 +14,12 @@ jobs:
       - name: Extract project
         run: |
           unzip -q BlackMindAI_v1_project.zip -d project
-          PROJECT_DIR=$(find project -type f -name gradlew -print -quit | xargs dirname)
+          PROJECT_DIR=$(find project -type f -name gradlew -print -quit)
+if [ -z "$PROJECT_DIR" ]; then
+  echo "gradlew not found"
+  exit 1
+fi
+PROJECT_DIR=$(dirname "$PROJECT_DIR")
           echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
 
       - name: Setup Java
